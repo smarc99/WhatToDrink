@@ -1,11 +1,15 @@
 package de.htw.wtd.gui;
 
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import de.htw.wtd.R;
+import de.htw.wtd.data.ILocation;
+import de.htw.wtd.logic.ILocationLogic;
+import org.osmdroid.views.overlay.Marker;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -13,10 +17,22 @@ import de.htw.wtd.R;
  */
 public class ButtonFragment extends Fragment {
 
+    private ILocationLogic locationLogic;
+
+    private MapActivity mapActivity;
+
+    private ILocation location;
+
+    private Marker locationMarker;
+
+    public ButtonFragment(MapActivity mapActivity, ILocationLogic locationLogic) {
+        this.mapActivity = mapActivity;
+        this.locationLogic = locationLogic;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -25,9 +41,34 @@ public class ButtonFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_button, container, false);
         if (rootView != null) {
-            rootView.findViewById(R.id.yes_button).setOnClickListener(v -> changeButtonVisibility(true));
-            rootView.findViewById(R.id.no_button).setOnClickListener(v -> changeButtonVisibility(true));
-            rootView.findViewById(R.id.request_button).setOnClickListener(v -> changeButtonVisibility(false));
+            rootView.findViewById(R.id.yes_button).setOnClickListener(v -> {
+                changeButtonVisibility(true);
+                if (location != null) {
+                    this.locationMarker.setAlpha(1f);
+                    locationLogic.acceptLocation(location);
+                    this.mapActivity.updateMap();
+                }
+            });
+            rootView.findViewById(R.id.no_button).setOnClickListener(v -> {
+                changeButtonVisibility(true);
+                this.location = null;
+                if (locationMarker != null) {
+                    this.mapActivity.removeMarker(locationMarker);
+                    this.locationMarker = null;
+                }
+            });
+            rootView.findViewById(R.id.request_button).setOnClickListener(v -> {
+                this.location = locationLogic.getNewLocation();
+                if(location != null) {
+                    changeButtonVisibility(false);
+                    System.out.println("Location: " + location.getDescription() + " " + location.getLatitude() + " " + location.getLongitude() + " " + location.getTime());
+                    if(this.locationMarker != null)
+                        this.mapActivity.removeMarker(locationMarker);
+                    this.locationMarker = this.mapActivity.addMarker(location);
+                }else {
+                    Toast.makeText(mapActivity, "Fehler, beim holen einer Location", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         return rootView;
     }

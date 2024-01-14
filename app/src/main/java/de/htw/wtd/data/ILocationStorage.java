@@ -13,4 +13,10 @@ public interface ILocationStorage {
      * @param loc, welche hinzugefügt werden soll.
      */
     void addLocation(ILocation loc);
+
+    /**
+     * Speichert die Locations zum Beispiel in einer Datei ab.
+     */
+    void saveLocations();
+
 }

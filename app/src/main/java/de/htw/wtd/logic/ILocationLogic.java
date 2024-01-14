@@ -15,5 +15,11 @@ public interface ILocationLogic {
      * @return Liste von Locations
      */
     ArrayList<ILocation> getAllLocations();
+
+    /**
+     * Aktzeptiert die Location und speichert sie im Speicher
+     * @param location Location
+     */
+    void acceptLocation(ILocation location);
 }
 

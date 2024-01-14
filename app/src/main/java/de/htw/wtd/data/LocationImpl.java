@@ -1,17 +1,22 @@
 package de.htw.wtd.data;
 
 public class LocationImpl implements ILocation{
-    private double temperatur;
-    private double lightLevel;
-
     private long time;
 
     private float longitude;
     private float latitude;
 
+    private String description;
+
+    public LocationImpl(float longitude, float latitude, String description){
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.description = description;
+    }
+
     @Override
-    public String getOwner() {
-        return owner;
+    public String getDescription() {
+        return description;
     }
 
     @Override
@@ -25,18 +30,13 @@ public class LocationImpl implements ILocation{
     }
 
     @Override
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    @Override
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    }
-
-    @Override
     public void setTime(long time) {
         this.time = time;
+    }
+
+    @Override
+    public long getTime() {
+        return time;
     }
 
 
