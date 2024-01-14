@@ -3,9 +3,12 @@ package de.htw.wtd.gui;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.util.Log;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
@@ -33,11 +36,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity implements SensorEventListener {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private MapView mapView;
     private Marker locationMarker;
@@ -56,7 +61,6 @@ public class MapActivity extends AppCompatActivity {
         //Logik initialisieren
         this.sensorLogic = new SensorLogicImpl();
         this.locationStorage = new LocationStorageImpl(this.getFilesDir().getAbsolutePath());
-
 
         String json = null;
         List<IPlace> places;
@@ -107,6 +111,8 @@ public class MapActivity extends AppCompatActivity {
         IMapController mapController = mapView.getController();
         mapController.setZoom(9.0);
 
+        this.locationStorage.getLocations().forEach(location -> this.addMarker(location, true));
+
         // LocationManager und LocationListener initialisieren
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -136,6 +142,18 @@ public class MapActivity extends AppCompatActivity {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
 
+        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        Sensor lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        if (lightSensor != null) {
+            sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
+        Sensor temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        if (temperatureSensor != null) {
+            sensorManager.registerListener(this, temperatureSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
     }
 
     @Override
@@ -151,22 +169,35 @@ public class MapActivity extends AppCompatActivity {
     }
 
     Marker addMarker(ILocation loc){
+        return addMarker(loc, false);
+    }
+
+    Marker addMarker(ILocation loc, boolean black_marker){
         GeoPoint currentLocation = new GeoPoint(loc.getLatitude(), loc.getLongitude());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", java.util.Locale.getDefault());
+
+        // Erstellen eines Date-Objekts aus dem Zeitstempel
+        Date date = new Date(loc.getTime());
+
+        // Formatieren des Date-Objekts in einen String
+        String formattedDate = sdf.format(date);
 
         Marker marker = new Marker(mapView);
         marker.setPosition(currentLocation);
-        marker.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_marker));
+        if(black_marker)
+            marker.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_marker_bw));
+        else
+            marker.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.icon_marker));
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        marker.setTitle(loc.getDescription());
-        marker.setAlpha(0.45f);
+        marker.setTitle(loc.getDescription() + "\nGeholt am: " + formattedDate);
+        marker.setAlpha(1f);
         mapView.getOverlays().add(marker);
-        updateMap();
         return marker;
     }
 
     void removeMarker(Marker marker){
         mapView.getOverlays().remove(marker);
-        updateMap();
     }
 
     void updateMap(){
@@ -200,6 +231,24 @@ public class MapActivity extends AppCompatActivity {
     public void onPause(){
         super.onPause();
         mapView.onPause(); //wird benötigt für osmdroid
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+            float light = event.values[0];
+            this.sensorLogic.setLightLevel(light);
+        }
+
+        if (event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
+            float temperature = event.values[0];
+            this.sensorLogic.setTemperatur(temperature);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Nicht benötigt
     }
 
     /**

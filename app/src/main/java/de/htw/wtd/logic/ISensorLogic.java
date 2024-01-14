@@ -12,4 +12,22 @@ public interface ISensorLogic {
      * @return Lichtlevel
      */
     double getLightLevel();
+
+    /**
+     * Setzt die Außentemperatur.
+     * @param temperatur
+     */
+     void setTemperatur(double temperatur);
+
+    /**
+     * Setzt das Lichtlevel.
+     * @param lightLevel
+     */
+     void setLightLevel(double lightLevel);
+
+    /**
+     * Ermittelt die Kategorie anhand der Sensordaten.
+     * @return Kategorie
+     */
+    Category getCategory();
 }

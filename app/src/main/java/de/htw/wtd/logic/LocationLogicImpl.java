@@ -10,7 +10,6 @@ import java.util.List;
 public class LocationLogicImpl implements ILocationLogic{
     private ILocationStorage storage;
     private ISensorLogic sensor;
-
     private List<IPlace> places;
 
     public LocationLogicImpl(ILocationStorage storage, ISensorLogic sensor, List<IPlace> places){
@@ -26,7 +25,7 @@ public class LocationLogicImpl implements ILocationLogic{
             return null;
         }
 
-        Category searchCategory = getCategory();
+        Category searchCategory = sensor.getCategory();
 
         IPlace place = null;
         for (IPlace p : places) {
@@ -43,33 +42,6 @@ public class LocationLogicImpl implements ILocationLogic{
         ILocation loc = new LocationImpl(place.getLongitude(), place.getLatitude(), desc);
         loc.setTime(System.currentTimeMillis());
         return loc;
-    }
-
-
-
-    /**
-     * Ermittelt die Kategorie anhand der Sensordaten.
-     * @return Kategorie
-     */
-    private Category getCategory() {
-        double temp = sensor.getTemperatur();
-        double light = sensor.getLightLevel();
-
-        Category searchCategory;
-        if (temp < 15) {
-            if(light < 1000) {
-                searchCategory = Category.RESTAURANT;
-            } else {
-                searchCategory = Category.COFFEESHOP;
-            }
-        } else {
-            if(light < 1000) {
-                searchCategory = Category.BAR;
-            } else {
-                searchCategory = Category.CREAMICESHOP;
-            }
-        }
-        return searchCategory;
     }
 
     @Override

@@ -11,6 +11,9 @@ public class LocationImpl implements ILocation{
     public LocationImpl(float longitude, float latitude, String description){
         this.longitude = longitude;
         this.latitude = latitude;
+        if(description == null){
+            throw new IllegalArgumentException("Description must not be null");
+        }
         this.description = description;
     }
 
@@ -37,6 +40,16 @@ public class LocationImpl implements ILocation{
     @Override
     public long getTime() {
         return time;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (!(obj instanceof ILocation))
+            return false;
+        ILocation loc = (ILocation) obj;
+        return loc.getDescription().equals(description) && loc.getLatitude() == latitude && loc.getLongitude() == longitude;
     }
 
 

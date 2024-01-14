@@ -27,6 +27,8 @@ public class LocationStorageImpl implements ILocationStorage{
 
     @Override
     public void addLocation(ILocation loc) {
+        if (loc == null)
+            throw new IllegalArgumentException("Location is null");
         locations.add(loc);
     }
 

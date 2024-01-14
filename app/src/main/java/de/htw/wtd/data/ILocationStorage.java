@@ -10,6 +10,7 @@ public interface ILocationStorage {
 
     /**
      * Fügt Location hinzu.
+     * @throws IllegalArgumentException wenn loc null ist.
      * @param loc, welche hinzugefügt werden soll.
      */
     void addLocation(ILocation loc);

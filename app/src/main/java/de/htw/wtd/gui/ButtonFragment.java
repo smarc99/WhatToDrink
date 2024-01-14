@@ -44,7 +44,6 @@ public class ButtonFragment extends Fragment {
             rootView.findViewById(R.id.yes_button).setOnClickListener(v -> {
                 changeButtonVisibility(true);
                 if (location != null) {
-                    this.locationMarker.setAlpha(1f);
                     locationLogic.acceptLocation(location);
                     this.mapActivity.updateMap();
                 }
@@ -55,6 +54,7 @@ public class ButtonFragment extends Fragment {
                 if (locationMarker != null) {
                     this.mapActivity.removeMarker(locationMarker);
                     this.locationMarker = null;
+                    this.mapActivity.updateMap();
                 }
             });
             rootView.findViewById(R.id.request_button).setOnClickListener(v -> {
@@ -62,9 +62,12 @@ public class ButtonFragment extends Fragment {
                 if(location != null) {
                     changeButtonVisibility(false);
                     System.out.println("Location: " + location.getDescription() + " " + location.getLatitude() + " " + location.getLongitude() + " " + location.getTime());
-                    if(this.locationMarker != null)
+                    if(this.locationMarker != null){
                         this.mapActivity.removeMarker(locationMarker);
+                        this.mapActivity.addMarker(location, true);
+                    }
                     this.locationMarker = this.mapActivity.addMarker(location);
+                    this.mapActivity.updateMap();
                 }else {
                     Toast.makeText(mapActivity, "Fehler, beim holen einer Location", Toast.LENGTH_SHORT).show();
                 }
