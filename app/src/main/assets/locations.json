@@ -1,0 +1,121 @@
+[
+  {
+    "name": "coffeeshop Schöneweide",
+    "address": "Reinbeckstraße 9, 12489 Berlin",
+    "longitude": 13.452372,
+    "latitude": 52.513236,
+    "category": "coffeeshop"
+  },
+  {
+    "name": "Mosaik coffeeshop",
+    "address": "Bahnhofstraße 10, 12489 Berlin",
+    "longitude": 13.451824,
+    "latitude": 52.512826,
+    "category": "coffeeshop"
+  },
+  {
+    "name": "Cafe am Wasser",
+    "address": "Alt-Schöneweide 52, 12489 Berlin",
+    "longitude": 13.451955,
+    "latitude": 52.513254,
+    "category": "coffeeshop"
+  },
+  {
+    "name": "Mocca-Insel",
+    "address": "Alt-Schöneweide 50, 12489 Berlin",
+    "longitude": 13.451991,
+    "latitude": 52.513276,
+    "category": "coffeeshop"
+  },
+  {
+    "name": "coffeeshop 39",
+    "address": "Alt-Schöneweide 39, 12489 Berlin",
+    "longitude": 13.452180,
+    "latitude": 52.513296,
+    "category": "coffeeshop"
+  },
+  {
+    "name": "cocomo Eiswerkstatt",
+    "address": "Schillerpromenade 1, 12489 Berlin",
+    "longitude": 13.451659,
+    "latitude": 52.513238,
+    "category": "creamiceshop"
+  },
+  {
+    "name": "Eiskultur - Berlin",
+    "address": "Schnellerstraße 118, 12489 Berlin",
+    "longitude": 13.452380,
+    "latitude": 52.513148,
+    "category": "creamiceshop"
+  },
+  {
+    "name": "Eiscoffeeshop Venezia",
+    "address": "Alt-Schöneweide 46, 12489 Berlin",
+    "longitude": 13.452084,
+    "latitude": 52.513303,
+    "category": "creamiceshop"
+  },
+  {
+    "name": "Eiscoffeeshop Roma",
+    "address": "Alt-Schöneweide 37, 12489 Berlin",
+    "longitude": 13.452187,
+    "latitude": 52.513312,
+    "category": "creamiceshop"
+  },
+  {
+    "name": "Eiscoffeeshop Sicilia",
+    "address": "Alt-Schöneweide 28, 12489 Berlin",
+    "longitude": 13.452281,
+    "latitude": 52.513322,
+    "category": "creamiceshop"
+  },
+  {
+    "name": "restaurant La Piazza",
+    "address": "Schnellerstraße 105, 12489 Berlin",
+    "longitude": 13.452346,
+    "latitude": 52.513110,
+    "category": "restaurant"
+  },
+  {
+    "name": "restaurant La Cantina",
+    "address": "Schnellerstraße 103, 12489 Berlin",
+    "longitude": 13.452338,
+    "latitude": 52.513104,
+    "category": "restaurant"
+  },
+  {
+    "name": "restaurant Mocca-Insel",
+    "address": "Alt-Schöneweide 50, 12489 Berlin",
+    "longitude": 13.451991,
+    "latitude": 52.513276,
+    "category": "restaurant"
+  },
+  {
+    "name": "restaurant 39",
+    "address": "Alt-Schöneweide 39, 12489 Berlin",
+    "longitude": 13.452180,
+    "latitude": 52.513296,
+    "category": "restaurant"
+  },
+  {
+    "name": "restaurant Am Wasser",
+    "address": "Alt-Schöneweide 52, 12489 Berlin",
+    "longitude": 13.451955,
+    "latitude": 52.513254,
+    "category": "restaurant"
+  },
+  {
+  "name": "la vida bar",
+  "address": "Sonnenallee 220, 12059 Berlin",
+  "longitude": 13.4174518,
+  "latitude": 52.4738131,
+  "category": "bar"
+},
+{
+  "name": "Drei Stufen bar",
+  "address": "Baumschulenstraße 75, 12437 Berlin",
+  "longitude": 13.4174518,
+  "latitude": 52.4738131,
+  "category": "bar"
+}
+]
